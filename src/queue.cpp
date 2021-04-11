@@ -1,9 +1,27 @@
 #include "queue.h"
 
 
+AddException::AddException(std::string error) {
+    this->error = std::move(error);
+}
+
+const char* AddException::what() const noexcept {
+    return this->error.c_str();
+}
+
+
+PopException::PopException(std::string error) {
+    this->error = std::move(error);
+}
+
+const char* PopException::what() const noexcept {
+    return this->error.c_str();
+}
+
+
 Queue::Queue(unsigned int size) {
     this->size = size > 0 ? size + 1 : defaultSize; // TODO: проверить, что будет, если size = 1?
-    this->vector = new int[this->size];
+    this->vector = new int[this->size]{};
     this->clear();
 }
 
@@ -21,21 +39,21 @@ Queue::~Queue() {
     delete[] vector;
 }
 
-int Queue::add(int value) {
+void Queue::add(int value) {
     if (head == (tale + 2) % size) {
-        return OVERFLOWED;
+        throw AddException("Queue overflowed");
     }
     tale = (tale + 1) % size;
     vector[tale] = value;
-    return SUCCESS;
 }
 
-int Queue::remove() {
+int Queue::pop() {
     if (getLength() == 0) {
-        return EMPTY;
+        throw PopException("Queue is empty");
     }
+    unsigned int nowHead = head;
     head = (head + 1) % size;
-    return SUCCESS;
+    return vector[nowHead];
 }
 
 void Queue::clear() {
@@ -78,4 +96,30 @@ Queue &Queue::operator=(const Queue &queue) {
     return *this;
 }
 
+void Queue::printVector() {
+    for (unsigned int i = 0; i < size; ++i) {
+        if (i == tale && i == head) {
+            std::cout << "talehead" << "\t";
+        } else if (i == tale) {
+            std::cout << "tale" << "\t\t";
+        } else if (i == head) {
+            std::cout << "head" << "\t\t";
+        } else {
+            if (i == size - 1) {
+                std::cout << "extra" << "\t\t";
+            } else {
+                std::cout << i << "\t\t\t";
+            }
+        }
+    }
+    std::cout << std::endl;
+    for (unsigned int i = 0; i < size; ++i) {
+        std::cout << vector[i] << "\t\t\t";
+    }
+    std::cout << std::endl;
+    std::cout << "Length: " << getLength() << std::endl << std::endl;
+}
 
+int *Queue::getVector() {
+    return vector;
+}

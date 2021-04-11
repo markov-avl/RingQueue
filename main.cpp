@@ -1,26 +1,19 @@
 #include "queue.h"
 
+/*
+ * При чрезмерном добавлении (метод add) возникает ошибка AddException
+ * При удалении (метод pop) в пустой очереди возникает ошибка PopException
+ */
+
+// Чтобы вывести структуру очереди, можно воспользоваться методом printVector
+
 int main() {
+    // пример теста
     auto queue = Queue(5);
-    queue.add(5);
-    queue.add(8);
-    queue.add(3);
-    queue.add(3);
-    queue.add(3);
-
-    Queue queueCopy = Queue(4);
-    queueCopy = queue;
-    queueCopy.add(1);
-    queueCopy.add(9);
-    queueCopy.remove();
-    queueCopy.add(564);
-    queueCopy.add(324);
-
-    std::cout << queue << std::endl;
-    std::cout << queueCopy << std::endl;
-
-    std::cout << queue.getLength() << std::endl;
-    std::cout << queueCopy.getLength() << std::endl;
-
+    queue.printVector();
+    queue.add(10);
+    queue.add(20);
+    queue.pop();
+    queue.printVector();
     return 0;
 }

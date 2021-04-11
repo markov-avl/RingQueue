@@ -1,6 +1,24 @@
 #ifndef RINGQUEUE_QUEUE_H
 #define RINGQUEUE_QUEUE_H
 #include <iostream>
+#include <exception>
+
+
+class AddException: public std::exception {
+private:
+    std::string error;
+public:
+    explicit AddException(std::string error);
+    const char* what() const noexcept override;
+};
+
+class PopException: public std::exception {
+private:
+    std::string error;
+public:
+    explicit PopException(std::string error);
+    const char* what() const noexcept override;
+};
 
 
 class Queue {
@@ -11,19 +29,19 @@ private:
     unsigned int tale{};
     int* vector;
 public:
-    const int SUCCESS = 0;     // функция выполнена успешно
-    const int OVERFLOWED = -1; // добавление невозможно, т.к. весь вектор заполнен
-    const int EMPTY = -2;      // удаление невозможно, т.к. вектор пуст
-
     explicit Queue(unsigned int);
     Queue(const Queue &queue);
     ~Queue();
-    int add(int);
-    int remove();
+    void add(int);
+    int pop();
     void clear();
     [[nodiscard]] unsigned int getLength() const;
     friend std::ostream& operator<<(std::ostream&, const Queue&);
     Queue& operator=(const Queue&);
+
+    // test methods
+    void printVector();
+    int* getVector();
 };
 
 
