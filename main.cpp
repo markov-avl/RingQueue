@@ -13,6 +13,7 @@ int main() {
     queue.printVector();
     queue.add(10);
     queue.add(20);
+    queue.printVector();
     queue.pop();
     queue.printVector();
     return 0;

@@ -99,7 +99,7 @@ Queue &Queue::operator=(const Queue &queue) {
 void Queue::printVector() {
     for (unsigned int i = 0; i < size; ++i) {
         if (i == tale && i == head) {
-            std::cout << "talehead" << "\t";
+            std::cout << "tale & head" << "\t";
         } else if (i == tale) {
             std::cout << "tale" << "\t\t";
         } else if (i == head) {
